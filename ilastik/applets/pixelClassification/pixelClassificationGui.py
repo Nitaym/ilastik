@@ -377,7 +377,15 @@ class PixelClassificationGui(LabelingGui):
 
         self.print_labels_submenu = QMenu("Print Label Blocks")
         labels_submenu.addMenu(self.print_labels_submenu)
-        
+
+        def save_labels():
+            filename = 'labels.bin'
+            numpy.save(filename, self.topLevelOperatorView.LabelImages.value)
+            print(filename + ' saved')
+        save_labels_action = labels_submenu.addAction("Save Labels")
+        save_labels_action.triggered.connect(save_labels)
+
+
         for axis in self.topLevelOperatorView.InputImages.meta.getAxisKeys()[:-1]:
             self.print_labels_submenu\
                 .addAction("Sort by {}".format( axis.upper() ))\
